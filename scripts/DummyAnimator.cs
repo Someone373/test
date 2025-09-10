@@ -15,15 +15,17 @@ public class DummyAnimator : MonoBehaviour
 
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        bool isMoving = (h != 0 || v != 0);
-        if (isMoving)
-        {
-            animator.SetTrigger("startWalk");
-        }
-        else if (!isMoving)
+
+        if (Mathf.Abs(h) < 0.1f) h = 0f;
+        if (Mathf.Abs(v) < 0.1f) v = 0f;
+
+        if (h == 0 && v == 0)
         {
             animator.SetTrigger("stopWalk");
         }
-      
+
+            animator.SetFloat("walkX", h);        
+            animator.SetFloat("walkZ", v);
+                      
     }
 }
