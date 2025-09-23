@@ -8,6 +8,13 @@ public class PlayerMovement : MonoBehaviour
     public Transform cam;  
 
     private bool isGrounded;
+    private FollowPlayer camScript;   // 存相機腳本
+
+    void Start()
+    {
+        // 一開始就找到 ThirdPersonCamera，避免每幀搜尋
+        camScript = FindObjectOfType<FollowPlayer>();
+    }
 
     void Update()
     {
@@ -28,20 +35,23 @@ public class PlayerMovement : MonoBehaviour
 
         // 移動
         Vector3 velocity = moveDir * moveSpeed;
-        velocity.y = rb.linearVelocity.y;   // ✅ 這裡改成 velocity
-        rb.linearVelocity = velocity;       // ✅ 這裡也改掉
+        velocity.y = rb.linearVelocity.y;   
+        rb.linearVelocity = velocity;       
 
-        // 面向移動方向
-        if (moveDir != Vector3.zero)
+        // 面向移動方向（只有真的有速度才會轉向）
+        if (rb.linearVelocity.magnitude > 0.1f && camScript != null)   
         {
-            Quaternion toRotation = Quaternion.LookRotation(moveDir, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 10f * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(0, camScript.ReturnRotation(), 0);
+        }
+        else
+        {
+             rb.constraints = RigidbodyConstraints.FreezeRotation;
         }
 
         // 跳躍
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // ✅ 改用 Impulse
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
