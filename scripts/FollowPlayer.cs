@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
-    public Transform target;        
+    public Transform target;
+    public MouseSensitivityController sensitivityController;        
     public Vector3 offset = new Vector3(0, 2, -5);
     public float mouseSensitivity = 3f;     
 
@@ -17,12 +18,12 @@ public class FollowPlayer : MonoBehaviour
 
     void LateUpdate()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        float mouseX = Input.GetAxis("Mouse X") * sensitivityController.mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * sensitivityController.mouseSensitivity;
 
         rotationY += mouseX;
         rotationX -= mouseY;
-        rotationX = Mathf.Clamp(rotationX, -35f, 60f); 
+        rotationX = Mathf.Clamp(rotationX, -20f, 60f); 
         MovementRotation = rotationY;
 
         Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);

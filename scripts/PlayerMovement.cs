@@ -36,17 +36,7 @@ public class PlayerMovement : MonoBehaviour
         // 移動
         Vector3 velocity = moveDir * moveSpeed;
         velocity.y = rb.linearVelocity.y;   
-        rb.linearVelocity = velocity;       
-
-        // 面向移動方向（只有真的有速度才會轉向）
-        if (rb.linearVelocity.magnitude > 0.1f && camScript != null)   
-        {
-            transform.rotation = Quaternion.Euler(0, camScript.ReturnRotation(), 0);
-        }
-        else
-        {
-             rb.constraints = RigidbodyConstraints.FreezeRotation;
-        }
+        rb.linearVelocity = velocity;
 
         // 跳躍
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)

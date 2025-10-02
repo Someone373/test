@@ -9,7 +9,7 @@ public class lightController : MonoBehaviour
     void Start()
     {
         m_light = GetComponent<Light>();
-        m_light.intensity = 10f;
+        m_light.intensity = 500f;
     }
 
     // Update is called once per frame
