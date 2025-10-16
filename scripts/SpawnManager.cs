@@ -33,13 +33,14 @@ public class SpawnManager : MonoBehaviour
         activeCheckpoint.Activate();
     }
 
-    public void Update()
+    void Update()
     {
         if (player != null && currentRespawn != null)
         {
             if (player.transform.position.y<=-30 || Input.GetKeyDown(KeyCode.R))
             {
                 MovePlayerTo(currentRespawn);
+                Debug.Log(currentRespawn);
             }
             
         }

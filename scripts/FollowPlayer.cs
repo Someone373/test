@@ -23,7 +23,7 @@ public class FollowPlayer : MonoBehaviour
 
         rotationY += mouseX;
         rotationX -= mouseY;
-        rotationX = Mathf.Clamp(rotationX, -20f, 60f); 
+        rotationX = Mathf.Clamp(rotationX, -90f, 60f); 
         MovementRotation = rotationY;
 
         Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);
@@ -31,6 +31,20 @@ public class FollowPlayer : MonoBehaviour
 
         transform.position = desiredPosition;
         transform.LookAt(target); 
+
+        RaycastHit hit;
+        if (Physics.Linecast(target.position+Vector3.up,transform.position+new Vector3(0,-0.1f,0), out hit))
+        {
+            if(hit.transform.name!="MainCamera" && hit.transform.name!="Player"){
+                transform.position=hit.point+new Vector3(0,0.1f,0);
+            }
+        }
+        else if (Physics.Linecast(target.position+Vector3.up,transform.position, out hit))
+        {
+            if(hit.transform.name!="MainCamera" && hit.transform.name!="Player"){
+                transform.position=hit.point+new Vector3(0,0.1f,0);
+            }
+        }
     }
 
     // 提供角色存取相機的 Y 軸旋轉

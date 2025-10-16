@@ -89,7 +89,7 @@ public class DummyController : MonoBehaviour
 
     void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Slope"))
         {
             isGrounded = true;
             animator.SetBool("IsGrounded", true);
