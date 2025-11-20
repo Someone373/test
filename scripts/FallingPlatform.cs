@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FallingPlatform : MonoBehaviour
 {
-    private float fallDelay = 0.3f;      // 玩家踩上後幾秒掉下
+    private float fallDelay = 0.6f;      // 玩家踩上後幾秒掉下
     public float respawnDelay = 3f;   // 掉下後幾秒重生
     private float gravity = -1.5f;
     public float slopeLimit = 35f;

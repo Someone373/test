@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;       // 垂直速度（重力和跳躍）
     private bool isGrounded;        // 檢測角色是否在地面上
+    private bool onSlope;
 
     void Start()
     {
@@ -36,7 +37,6 @@ public class PlayerMovement : MonoBehaviour
         // 獲取水平移動的輸入
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
-
 
         // 相機方向
         Vector3 camForward = cam.forward;
@@ -67,15 +67,13 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
-
-
     void CheckSlope()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.2f))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 10f))
         {
             float angle = Vector3.Angle(hit.normal, Vector3.up);
-            if (angle > slopeLimit)
+            if (angle > slopeLimit && onSlope)
             {
                 SlideDown(hit.normal);
             }
@@ -88,12 +86,16 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(slideDirection * slideSpeed * Time.deltaTime);
     }
 
-
     void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+        }
+
+        if (collision.gameObject.CompareTag("Slope"))
+        {
+            onSlope = true;
         }
     }
 
@@ -103,7 +105,10 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = false;
         }
+
+        if (collision.gameObject.CompareTag("Slope"))
+        {
+            onSlope = false;
+        }
     }    
-
-
 }
