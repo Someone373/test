@@ -58,7 +58,7 @@ public class DummyController : MonoBehaviour
         animator.SetFloat("Speed", move.magnitude * moveSpeed);
 
 
-        if(transform.position.y < 0)
+        if(transform.position.y < -5)
         {
             animator.SetBool("PosY-", true);
         }
@@ -89,7 +89,7 @@ public class DummyController : MonoBehaviour
 
     void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Slope"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
             animator.SetBool("IsGrounded", true);
